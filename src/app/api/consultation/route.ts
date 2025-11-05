@@ -16,15 +16,11 @@ export async function POST(request: Request) {
       );
     }
 
-    // Email recipients
-    const recipients = process.env.EMAIL_TO?.split(',') || ['ceo@wiztheplanning.com'];
+    // Email recipients - trim whitespace from each email
+    const recipients = process.env.EMAIL_TO?.split(',').map(email => email.trim()) || ['ceo@wiztheplanning.com'];
 
-    // Send email using Resend
-    const data = await resend.emails.send({
-      from: process.env.EMAIL_FROM || 'onboarding@resend.dev',
-      to: recipients,
-      subject: `[위즈더플래닝] 새로운 상담 신청 - ${name}님`,
-      html: `
+    // Email HTML template
+    const emailHtml = `
         <!DOCTYPE html>
         <html>
           <head>
@@ -117,13 +113,26 @@ export async function POST(request: Request) {
             </div>
           </body>
         </html>
-      `,
-    });
+      `;
+
+    // Send email to each recipient individually
+    const emailPromises = recipients.map(recipient =>
+      resend.emails.send({
+        from: process.env.EMAIL_FROM || 'onboarding@resend.dev',
+        to: recipient,
+        subject: `[위즈더플래닝] 새로운 상담 신청 - ${name}님`,
+        html: emailHtml,
+      })
+    );
+
+    // Wait for all emails to be sent
+    const results = await Promise.all(emailPromises);
 
     return NextResponse.json({
       success: true,
       message: '상담 신청이 완료되었습니다.',
-      data
+      emailsSent: results.length,
+      recipients: recipients
     });
   } catch (error) {
     console.error('Email sending error:', error);
