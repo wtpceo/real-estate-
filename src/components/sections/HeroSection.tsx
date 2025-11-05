@@ -1,9 +1,19 @@
+"use client"
+
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { ConsultationForm } from "@/components/ConsultationForm";
+import * as React from "react";
 
 export default function HeroSection() {
+  const [isFormOpen, setIsFormOpen] = React.useState(false)
+
+  const kakaoTalkUrl = "http://pf.kakao.com/_QUTxcb/chat"
+
   return (
+    <>
+      <ConsultationForm isOpen={isFormOpen} onClose={() => setIsFormOpen(false)} />
     <section className="relative bg-gradient-to-br from-navy-900 via-navy-800 to-navy-900 text-white py-20 md:py-32 overflow-hidden">
       {/* Background Image with Overlay */}
       <div className="absolute inset-0">
@@ -44,14 +54,23 @@ export default function HeroSection() {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-8">
-            <Button size="lg" className="w-full sm:w-auto group">
-              우리 지역 키워드 분석 받기
+            <Button
+              size="lg"
+              className="w-full sm:w-auto group bg-yellow-400 hover:bg-yellow-500 text-gray-900"
+              onClick={() => window.open(kakaoTalkUrl, '_blank')}
+            >
+              💬 카카오톡 바로 문의
               <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </Button>
-            <Button variant="secondary" size="lg" className="w-full sm:w-auto">
-              무료 상담 신청하기
+            <Button
+              variant="secondary"
+              size="lg"
+              className="w-full sm:w-auto"
+              onClick={() => setIsFormOpen(true)}
+            >
+              📋 상담 신청하기
             </Button>
           </div>
 
@@ -73,5 +92,6 @@ export default function HeroSection() {
         </div>
       </div>
     </section>
+    </>
   );
 }

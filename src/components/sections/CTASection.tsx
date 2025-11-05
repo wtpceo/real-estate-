@@ -1,9 +1,19 @@
+"use client"
+
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { ConsultationForm } from "@/components/ConsultationForm";
+import * as React from "react";
 
 export default function CTASection() {
+  const [isFormOpen, setIsFormOpen] = React.useState(false)
+
+  const kakaoTalkUrl = "http://pf.kakao.com/_QUTxcb/chat"
+
   return (
+    <>
+      <ConsultationForm isOpen={isFormOpen} onClose={() => setIsFormOpen(false)} />
     <section className="relative py-16 md:py-24 bg-gradient-to-br from-navy-900 via-navy-800 to-navy-900 text-white overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
@@ -55,11 +65,30 @@ export default function CTASection() {
           <span className="text-accent-orange">부담 없이 먼저 상담받아보세요.</span>
         </p>
 
-        <div className="flex justify-center mb-8">
-          <Button size="lg" className="group text-xl px-12 py-5 h-auto relative overflow-hidden">
+        <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+          {/* 카카오톡 바로 문의 버튼 (주 버튼) */}
+          <Button
+            size="lg"
+            className="group text-xl px-12 py-5 h-auto relative overflow-hidden bg-yellow-400 hover:bg-yellow-500 text-gray-900"
+            onClick={() => window.open(kakaoTalkUrl, '_blank')}
+          >
             {/* Button shine effect */}
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-            <span className="relative">지금 무료 상담 신청하기</span>
+            <span className="relative flex items-center gap-2">
+              💬 카카오톡 바로 문의
+            </span>
+          </Button>
+
+          {/* 상담 신청 폼 버튼 (보조 버튼) */}
+          <Button
+            size="lg"
+            variant="secondary"
+            className="group text-xl px-12 py-5 h-auto relative overflow-hidden"
+            onClick={() => setIsFormOpen(true)}
+          >
+            <span className="relative flex items-center gap-2">
+              📋 상담 신청하기
+            </span>
             <svg className="w-6 h-6 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
             </svg>
@@ -94,5 +123,6 @@ export default function CTASection() {
         </div>
       </div>
     </section>
+    </>
   );
 }
