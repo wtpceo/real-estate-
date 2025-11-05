@@ -19,6 +19,10 @@ export async function POST(request: Request) {
     // Email recipients - trim whitespace from each email
     const recipients = process.env.EMAIL_TO?.split(',').map(email => email.trim()) || ['ceo@wiztheplanning.com'];
 
+    // Debug logging
+    console.log('📧 Email Recipients:', recipients);
+    console.log('📧 Number of recipients:', recipients.length);
+
     // Email HTML template
     const emailHtml = `
         <!DOCTYPE html>
@@ -116,23 +120,33 @@ export async function POST(request: Request) {
       `;
 
     // Send email to each recipient individually
-    const emailPromises = recipients.map(recipient =>
-      resend.emails.send({
+    const emailPromises = recipients.map(async (recipient, index) => {
+      console.log(`📨 Sending email ${index + 1}/${recipients.length} to: ${recipient}`);
+      const result = await resend.emails.send({
         from: process.env.EMAIL_FROM || 'onboarding@resend.dev',
         to: recipient,
         subject: `[위즈더플래닝] 새로운 상담 신청 - ${name}님`,
         html: emailHtml,
-      })
-    );
+      });
+      console.log(`✅ Email sent to ${recipient}:`, result.data?.id);
+      return result;
+    });
 
     // Wait for all emails to be sent
     const results = await Promise.all(emailPromises);
+
+    console.log(`🎉 Total emails sent: ${results.length}`);
 
     return NextResponse.json({
       success: true,
       message: '상담 신청이 완료되었습니다.',
       emailsSent: results.length,
-      recipients: recipients
+      recipients: recipients,
+      details: results.map((r, i) => ({
+        recipient: recipients[i],
+        emailId: r.data?.id,
+        error: r.error
+      }))
     });
   } catch (error) {
     console.error('Email sending error:', error);
