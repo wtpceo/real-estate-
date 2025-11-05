@@ -71,17 +71,25 @@ export default function CTASection() {
         </p>
 
         {/* Footer Info */}
-        <div className="border-t border-white/20 pt-8">
+        <div className="border-t border-white/20 pt-8 space-y-6">
+          {/* Contact Info */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center text-sm text-gray-300">
             <div>
-              <span className="font-semibold">📞 전화:</span> [연락처]
+              <span className="font-semibold">📞 전화:</span> 1670-0704
             </div>
             <div>
-              <span className="font-semibold">📧 이메일:</span> [이메일]
+              <span className="font-semibold">📧 이메일:</span> wiz@wiztheplanning.com
             </div>
             <div>
-              <span className="font-semibold">📍 주소:</span> [회사 주소]
+              <span className="font-semibold">📍 주소:</span> 서울시 금천구 디지털로 178 가산퍼블릭 A동 2518,2519호
             </div>
+          </div>
+
+          {/* Business Info */}
+          <div className="text-center text-xs text-gray-400 space-y-1 pt-4 border-t border-white/10">
+            <p className="font-semibold">(주)위즈더플래닝</p>
+            <p>사업자등록번호: 668-81-00391</p>
+            <p className="text-gray-500 mt-2">© 2025 Wiz The Planning. All rights reserved.</p>
           </div>
         </div>
       </div>
