@@ -22,8 +22,7 @@ export default function UrgencySection() {
         {/* Urgency Badge */}
         <div className="flex justify-center mb-8">
           <Badge className="bg-white/20 backdrop-blur-sm text-white border-white/30 text-base px-6 py-2">
-            <span className="animate-pulse">⏰</span>
-            <span className="ml-2">타이밍이 전부입니다</span>
+            타이밍이 전부입니다
           </Badge>
         </div>
 
