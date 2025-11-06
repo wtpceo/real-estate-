@@ -7,6 +7,7 @@ import DifferenceSection from "@/components/sections/DifferenceSection";
 import UsageSection from "@/components/sections/UsageSection";
 import ProcessSection from "@/components/sections/ProcessSection";
 import ResultsSection from "@/components/sections/ResultsSection";
+import UrgencySection from "@/components/sections/UrgencySection";
 import FAQSection from "@/components/sections/FAQSection";
 import CTASection from "@/components/sections/CTASection";
 
@@ -22,6 +23,7 @@ export default function Home() {
       <UsageSection />
       <ProcessSection />
       <ResultsSection />
+      <UrgencySection />
       <FAQSection />
       <CTASection />
     </main>
